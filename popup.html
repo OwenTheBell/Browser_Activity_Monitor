@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+	<title>Browser Activity Monitor</title>
+	<script>
+		localStorage.setItem("isDebugMode", "yes");
+		
+		function save(){
+			var username = document.getElementById("username").value;
+			if (username == null) username = "default";
+			var userCurrent = localStorage.getItem("userName");
+			if (username != userCurrent){
+				var secret = localStorage.getItem("secret"+username);
+				if (secret == null){
+					secret = chrome.extension.getBackgroundPage().generateSecret();
+					localStorage.setItem("secret"+username, secret);
+				}
+				localStorage.setItem("userName", username);
+			}
+		}
+		
+		function load(){
+			var username = localStorage.getItem("userName");
+			document.getElementById("username").value = username;
+			var isAnonymous = localStorage.getItem("isAnonymous");
+			if(isAnonymous == "yes"){
+				document.getElementById("encode").innerHTML="URL Encoding: ON";
+			}
+			if(localStorage.pause){
+				document.getElementById("toggle").innerHTML="Status: OFF";
+			}
+		}
+		
+		function encode(){
+			var isAnonymous = localStorage.getItem("isAnonymous");
+			if (isAnonymous == "yes"){
+				document.getElementById("encode").innerHTML="URL Encoding: OFF";
+				localStorage.setItem("isAnonymous", "no");
+			} else{
+				document.getElementById("encode").innerHTML="URL Encoding: ON";
+				localStorage.setItem("isAnonymous", "yes");
+			}
+		}
+		
+		function toggle(){
+            if(!localStorage.pause){
+               localStorage.pause="true";
+               document.getElementById("toggle").innerHTML="Status: OFF";
+               
+            }else if(localStorage.pause){
+               localStorage.pause="";
+               document.getElementById("toggle").innerHTML="Status: ON";
+            }
+		}
+		
+		function show(){
+            chrome.extension.getBackgroundPage().showstat();
+		}
+		
+		function reset(){
+            var userName=localStorage.getItem("userName");
+            var secret=localStorage.getItem("secret");
+            var isDebug=localStorage.getItem("isDebugMode");
+            var isAnonymous=localStorage.getItem("isAnonymous");
+            var pause=localStorage.pause;
+            localStorage.clear();
+            localStorage.wasCleared=true;
+            var clearTime=new Date().getTime();
+            localStorage.clearTime=clearTime;
+            localStorage.setItem("userName",userName);
+            localStorage.isDebugMode=isDebug;
+            localStorage.isAnonymous=isAnonymous;
+            localStorage.pause=pause;
+		}
+	</script>
+</head>
+<body onload = "load()">
+	<h3>Browser Activity Monitor</h3>
+		Username: <input type="text" id="username"/>
+		<button type="buttpn" onclick="save()">Save</button>
+		<button type="button" id="encode" onclick="encode()">URL Encoding: OFF</button>
+		<button type="button" id="toggle" onclick="toggle()">Status: ON</button>
+		<button type="button" onclick="show()">Show tracking information</button>
+		<button type="button" onclick="reset()">Clear history</button>
+</body>
+</html>

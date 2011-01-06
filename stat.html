@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <title>Tracking Action Statistics</title>
+    <link type="text/css" rel="stylesheet" href="style.css" />
+    <script>
+    function readStorage(){
+        //get the area to display the result
+        var length= localStorage.datalength;
+        var log=document.getElementById("log");
+        //deal the log entries one by one
+		
+        for(var i=0;i<length;i++){
+			var display = localStorage.getItem(i+"info");
+            //store the info in a pre element and display
+            var pre= document.createElement("pre");
+            pre.appendChild(document.createTextNode(display));
+            log.appendChild(pre);
+        }
+        
+    }
+    </script>
+</head>
+<body onload="readStorage()" onunload="clearData()">
+    <h2>Tracking Statistics</h2>
+    <div id="log"></div>
+    </table>
+</body>
+</html>

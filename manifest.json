@@ -1,0 +1,22 @@
+{
+    "name": "tracking action",
+    "version":"1.0",
+    "description":"tracking the action of opening and closing tab and window",
+    "icons":{
+        "48":"sample-48.png",
+        "128": "sample-128.png"
+    },
+    "permissions":[
+        "tabs",
+        "http://*/*",
+        "bookmarks",
+        "history"
+    ],
+    "background_page":"background.html",
+    "browser_action":{
+        "default_icon":"sample-19.png",
+        "default_title":"tracking action",
+        "default_popup":"popup.html"
+    }
+    
+}
