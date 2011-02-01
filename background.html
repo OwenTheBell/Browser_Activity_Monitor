@@ -22,10 +22,21 @@
 			var index=localStorage.datalength;
 			var time=new Date().getTime();
             if(!localStorage.initialized){initialize();}
-			if (url != "-"){
-				if(localStorage.getItem("isAnonymous")=="yes"){
-					url=parseURL(url);
+			
+			if(localStorage.getItem("isAnonymous") == "yes"){
+				if(url != "-"){
+					url = parseURL(url);
 				}
+				/*else{
+					for(var i = 0; i < otherInfo.length; i+=2){
+						if(otherInfo[i].search("[tT}itle") != -1){
+							otherInfo[i+1] = parseOther(otherInfo[i+1]);
+						}
+						else if (otherInfo[i].search("[uU][rR][lL]") != -1){
+							otherInfo[i+1] = parseURL(otherInfo[i+1]);
+						}
+					}
+				}*/
 			}
 			
 			var name = localStorage.getItem("userName");
@@ -59,7 +70,7 @@
 			return secret;
 		}
 	
-        /*detect the tabs and windows already opened and log them for the log consistency. setup the initial value for datalengh and initialized
+        /*detect the tabs and windows already opened and log them for the log consistency. Setup the initial value for datalengh and initialized
         for afterwards logging.*/
         function initialize(){
 			var otherInfo = new Array();
@@ -101,18 +112,42 @@
         function parseURL(url){
 			var secret = localStorage.getItem("secret");
 			var dividedUrl = url.split("://");
-			var arr1 = dividedUrl[0];
-			var arr2 = dividedUrl[1];
-			var index = arr2.search("/");
-			var subarr1 = arr2.substring(0, index);
-			var subarr2 = arr2.substring(index+1);
-			var subarr1 = MD5(secret+subarr1);
-			var subarr2 = MD5(secret+subarr2);
-			var output = arr1 + "://" + subarr1 + "/" + subarr2;
+			var http = dividedUrl[0];
+			var other = dividedUrl[1];
+			var index = other.search("/");
+			var domain = other.substring(0, index);
+			var domainArray = domain.split(".");
+			for( var i = 0; i < domainArray.length - 1; i++){
+				//Do not encode the top-level domain as well as 'www' if it appears
+				if(domainArray[i] != "www"){
+					domain = domain.replace(domainArray[i], MD5(secret+domainArray[i]));
+				}
+			}
+			
+			var parameters = other.substring(index+1);
+			var parametersArray = parameters.split("?");
+			for( var i = 0; i < parametersArray.length; i++){
+				parameters = parameters.replace(parametersArray[i], MD5(secret+parametersArray[i]));
+			}
+			
+			var output = http + "://" + domain + "/" + parameters;
 			return output;
-        }        
+        }
+
+		function parseOther(other){
+			var secret = localStorage.getItem("secret");
+			var otherInfo = MD5(secret+other);
+			return otherInfo;
+		}
         
-        var MD5 = function (string) {
+        /**
+		*
+		*  MD5 (Message-Digest Algorithm)
+		*  http://www.webtoolkit.info/
+		*
+		**/
+		
+		var MD5 = function (string) {
             function RotateLeft(lValue, iShiftBits) {
 	       return (lValue<<iShiftBits) | (lValue>>>(32-iShiftBits));
             }

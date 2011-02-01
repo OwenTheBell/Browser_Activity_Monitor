@@ -2,22 +2,6 @@
 <head>
 	<title>Browser Activity Monitor</title>
 	<script>
-		localStorage.setItem("isDebugMode", "yes");
-		
-		function save(){
-			var username = document.getElementById("username").value;
-			if (username == null) username = "default";
-			var userCurrent = localStorage.getItem("userName");
-			if (username != userCurrent){
-				var secret = localStorage.getItem("secret"+username);
-				if (secret == null){
-					secret = chrome.extension.getBackgroundPage().generateSecret();
-					localStorage.setItem("secret"+username, secret);
-				}
-				localStorage.setItem("userName", username);
-			}
-		}
-		
 		function load(){
 			var username = localStorage.getItem("userName");
 			document.getElementById("username").value = username;
@@ -27,6 +11,28 @@
 			}
 			if(localStorage.pause){
 				document.getElementById("toggle").innerHTML="Status: OFF";
+			}
+		}
+		
+		/*function getSecret(){
+			var secret = localStorage.getItem("secret");
+			
+		}*/
+		
+		function save(){
+			var username = document.getElementById("username").value;
+			var secret = document.getElementById("secret").value;
+			if (username == null) username = "default";
+			if (secret == null) secret = localStorage.getItem("secret"+username);
+			var userCurrent = localStorage.getItem("userName");
+			if (username != userCurrent){
+				var secret = localStorage.getItem("secret"+username);
+				if (secret == null){
+					secret = chrome.extension.getBackgroundPage().generateSecret();
+					localStorage.setItem("secret"+username, secret);
+				}
+				localStorage.setItem("userName", username);
+				localStorage.setItem("secret", secret);
 			}
 		}
 		
@@ -76,6 +82,7 @@
 <body onload = "load()">
 	<h3>Browser Activity Monitor</h3>
 		Username: <input type="text" id="username"/>
+		Secret: <input type="text" id="secret" onclick="getSecret()"/>
 		<button type="buttpn" onclick="save()">Save</button>
 		<button type="button" id="encode" onclick="encode()">URL Encoding: OFF</button>
 		<button type="button" id="toggle" onclick="toggle()">Status: ON</button>
