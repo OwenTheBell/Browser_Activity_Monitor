@@ -16,24 +16,25 @@
 		
 		/*function getSecret(){
 			var secret = localStorage.getItem("secret");
-			testing testing more and more
 		}*/
 		
 		function save(){
 			var username = document.getElementById("username").value;
 			var secret = document.getElementById("secret").value;
+      var users = JSON.parse(localStorage.getItem("users"));
 			if (username == null) username = "default";
-			if (secret == null) secret = localStorage.getItem("secret"+username);
-			var userCurrent = localStorage.getItem("userName");
-			if (username != userCurrent){
-				var secret = localStorage.getItem("secret"+username);
-				if (secret == null){
-					secret = chrome.extension.getBackgroundPage().generateSecret();
-					localStorage.setItem("secret"+username, secret);
-				}
-				localStorage.setItem("userName", username);
-				localStorage.setItem("secret", secret);
-			}
+      if (users != null){
+          if (secret == null){
+            secret = chrome.extension.getBackgroundPage().generateSecret();
+          }
+          users["username"] = secret;
+      }
+      else{
+          users = {username: secret};
+      }
+		  localStorage.setItem("userName", username);
+			localStorage.setItem("secret", secret);
+      localStorage.setItem("users", JSON.stringify(users));
 		}
 		
 		function encode(){
@@ -48,34 +49,33 @@
 		}
 		
 		function toggle(){
-            if(!localStorage.pause){
-               localStorage.pause="true";
-               document.getElementById("toggle").innerHTML="Status: OFF";
-               
-            }else if(localStorage.pause){
-               localStorage.pause="";
-               document.getElementById("toggle").innerHTML="Status: ON";
-            }
+      if(!localStorage.pause){
+        localStorage.pause="true";
+        document.getElementById("toggle").innerHTML="Status: OFF";         
+      }else if(localStorage.pause){
+         localStorage.pause="";
+         document.getElementById("toggle").innerHTML="Status: ON";
+      }
 		}
 		
 		function show(){
-            chrome.extension.getBackgroundPage().showstat();
+      chrome.extension.getBackgroundPage().showstat();
 		}
 		
 		function reset(){
-            var userName=localStorage.getItem("userName");
-            var secret=localStorage.getItem("secret");
-            var isDebug=localStorage.getItem("isDebugMode");
-            var isAnonymous=localStorage.getItem("isAnonymous");
-            var pause=localStorage.pause;
-            localStorage.clear();
-            localStorage.wasCleared=true;
-            var clearTime=new Date().getTime();
-            localStorage.clearTime=clearTime;
-            localStorage.setItem("userName",userName);
-            localStorage.isDebugMode=isDebug;
-            localStorage.isAnonymous=isAnonymous;
-            localStorage.pause=pause;
+      var userName=localStorage.getItem("userName");
+      var secret=localStorage.getItem("secret");
+      var isDebug=localStorage.getItem("isDebugMode");
+      var isAnonymous=localStorage.getItem("isAnonymous");
+      var pause=localStorage.pause;
+      localStorage.clear();
+      localStorage.wasCleared=true;
+      var clearTime=new Date().getTime();
+      localStorage.clearTime=clearTime;
+      localStorage.setItem("userName",userName);
+      localStorage.isDebugMode=isDebug;
+      localStorage.isAnonymous=isAnonymous;
+      localStorage.pause=pause;
 		}
 	</script>
 </head>
