@@ -3,8 +3,8 @@
 	<title>Browser Activity Monitor</title>
 	<script>
 		function load(){
-			var username = localStorage.getItem("userName");
-			document.getElementById("username").value = username;
+			document.getElementById("username").value = localStorage.getItem("userName");
+      document.getElementById("secret").value = localStorage.getItem("secret");
 			var isAnonymous = localStorage.getItem("isAnonymous");
 			if(isAnonymous == "yes"){
 				document.getElementById("encode").innerHTML="URL Encoding: ON";
@@ -32,16 +32,15 @@
               secret = users[username];
             } else {
               secret = chrome.extension.getBackgroundPage().generateSecret();
-              users["username"] = secret;
+              users[username] = secret;
             }
           } else {
-            users["username"] = secret;
+            users[username] = secret;
           }
       } else{
           users = {};
           users[username] =  secret;
       }
-      alert(secret);
 		  localStorage.setItem("userName", username);
 			localStorage.setItem("secret", secret);
       localStorage.setItem("users", JSON.stringify(users));
@@ -77,12 +76,15 @@
       var secret=localStorage.getItem("secret");
       var isDebug=localStorage.getItem("isDebugMode");
       var isAnonymous=localStorage.getItem("isAnonymous");
+      var users = localStorage.getItem("users");
       var pause=localStorage.pause;
       localStorage.clear();
       localStorage.wasCleared=true;
       var clearTime=new Date().getTime();
       localStorage.clearTime=clearTime;
       localStorage.setItem("userName",userName);
+      localStorage.setItem("secret", secret);
+      localStorage.setItem("users", users);
       localStorage.isDebugMode=isDebug;
       localStorage.isAnonymous=isAnonymous;
       localStorage.pause=pause;
