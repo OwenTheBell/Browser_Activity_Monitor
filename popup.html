@@ -24,14 +24,24 @@
       var users = JSON.parse(localStorage.getItem("users"));
 			if (username == null) username = "default";
       if (users != null){
-          if (secret == null){
-            secret = chrome.extension.getBackgroundPage().generateSecret();
+          /*If there is no provided secret check to see if the user already
+          * exists, if they do just use the stored secret otherwise make
+          * a new one. */
+          if (secret == ""){
+            if (username in users){
+              secret = users[username];
+            } else {
+              secret = chrome.extension.getBackgroundPage().generateSecret();
+              users["username"] = secret;
+            }
+          } else {
+            users["username"] = secret;
           }
-          users["username"] = secret;
+      } else{
+          users = {};
+          users[username] =  secret;
       }
-      else{
-          users = {username: secret};
-      }
+      alert(secret);
 		  localStorage.setItem("userName", username);
 			localStorage.setItem("secret", secret);
       localStorage.setItem("users", JSON.stringify(users));
