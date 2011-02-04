@@ -3,8 +3,12 @@
 	<title>Browser Activity Monitor</title>
 	<script>
 		function load(){
-			document.getElementById("username").value = localStorage.getItem("userName");
-      document.getElementById("secret").value = localStorage.getItem("secret");
+      var username = localStorage.getItem("userName");
+      if (username == null) username == "";
+			document.getElementById("username").value = username;
+      var secret = localStorage.getItem("secret");
+      if (secret == null) secret = "";
+      document.getElementById("secret").value = secret;
 			var isAnonymous = localStorage.getItem("isAnonymous");
 			if(isAnonymous == "yes"){
 				document.getElementById("encode").innerHTML="URL Encoding: ON";
@@ -14,9 +18,17 @@
 			}
 		}
 		
-		/*function getSecret(){
-			var secret = localStorage.getItem("secret");
-		}*/
+		function getSecret(){
+			var username = document.getElementById("username").value;
+      var users = localStorage.getItem("users");
+      if (username in users){
+        document.getElementById("secret") = users[username];
+      }
+      else{
+        document.getElementById("secret") = chrome.extension.getBackgroundPage().generateSecret();
+      }
+      
+		}
 		
 		function save(){
 			var username = document.getElementById("username").value;
