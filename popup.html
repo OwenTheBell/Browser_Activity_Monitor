@@ -19,15 +19,16 @@
 		}
 		
 		function getSecret(){
-			var username = document.getElementById("username").value;
-      var users = localStorage.getItem("users");
-      if (username in users){
-        document.getElementById("secret") = users[username];
+      var username = document.getElementById("username").value;
+      var users = JSON.parse(localStorage.getItem("users"));
+      if (username != null){
+         if ((users != null) && (username in users)){
+           document.getElementById("secret").value = users[username];
+         }
+         else{
+           document.getElementById("secret").value = chrome.extension.getBackgroundPage().generateSecret();
+         }
       }
-      else{
-        document.getElementById("secret") = chrome.extension.getBackgroundPage().generateSecret();
-      }
-      
 		}
 		
 		function save(){
