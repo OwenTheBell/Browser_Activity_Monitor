@@ -48,11 +48,14 @@
               users[username] = secret;
             }
           } else {
+            var oldSecret = users[username];
+            var otherInfo = new Array();
+            if (oldSecret != secret) chrome.extension.getBackgroundPage().addToLocalStorage("secretChanged", "-", "-", "-", otherInfo);
             users[username] = secret;
           }
       } else{
           users = {};
-          users[username] =  secret;
+          users[username] = secret;
       }
 		  localStorage.setItem("userName", username);
 			localStorage.setItem("secret", secret);
