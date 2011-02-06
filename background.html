@@ -84,7 +84,7 @@ function initialize(){
 
   if(localStorage.wasCleared){
     otherInfo = ["clearTime", localStorage.getItem("clearTime")];
-    addToLocalStorage("clearhistory", "-", "-", "-", otherInfo);
+    addToLocalStorage("clearHistory", "-", "-", "-", otherInfo);
     localStorage.wasCleared=false;
   }
   chrome.windows.getAll({"populate" : true},function(windows){

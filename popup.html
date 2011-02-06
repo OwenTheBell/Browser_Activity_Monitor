@@ -35,6 +35,7 @@
 			var username = document.getElementById("username").value;
 			var secret = document.getElementById("secret").value;
       var users = JSON.parse(localStorage.getItem("users"));
+      var secretChanged = "false";
 			if (username == null) username = "default";
       if (users != null){
           /*If there is no provided secret check to see if the user already
@@ -50,7 +51,7 @@
           } else {
             var oldSecret = users[username];
             var otherInfo = new Array();
-            if (oldSecret != secret) chrome.extension.getBackgroundPage().addToLocalStorage("secretChanged", "-", "-", "-", otherInfo);
+            if (oldSecret != secret) secretChanged = "true";
             users[username] = secret;
           }
       } else{
@@ -60,6 +61,7 @@
 		  localStorage.setItem("userName", username);
 			localStorage.setItem("secret", secret);
       localStorage.setItem("users", JSON.stringify(users));
+      if (secretChanged) chrome.extension.getBackgroundPage().addToLocalStorage("secretChanged", "-", "-", "-", []);
 		}
 		
 		function encode(){
