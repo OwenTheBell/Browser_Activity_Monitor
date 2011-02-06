@@ -41,6 +41,7 @@ function addToLocalStorage(action, windowId, tabId, url, otherInfo){
   }
 
   var name = localStorage.getItem("userName");
+  if (name == null) name = "default";
   var display = time + " username " + name + " action " + action + " windowId " + windowId + " tabId " + tabId + " url " + url;
   for ( var i = 0; i < otherInfo.length; i++){
     display = display + " " + otherInfo[i];
