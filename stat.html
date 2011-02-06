@@ -13,8 +13,10 @@
 			var display = localStorage.getItem(i+"info");
             //store the info in a pre element and display
             var pre= document.createElement("pre");
-            pre.appendChild(document.createTextNode(display));
-            log.appendChild(pre);
+            if(display != null){
+              pre.appendChild(document.createTextNode(display));
+              log.appendChild(pre);
+            }
         }
         
     }

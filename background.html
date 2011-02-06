@@ -89,11 +89,11 @@ function initialize(){
   chrome.windows.getAll({"populate" : true},function(windows){
     for(var i = 0; i < windows.length; i++){
       var window = windows[i];
-      //Declared earlier in function so initialize again here
+      //otherInfo was d6eclared earlier in function so initialize again here
       otherInfo = new Array();
       addToLocalStorage("windowExisting", window.id, "-", "-", otherInfo);
       if (window.focused){
-        addToLocalStorage("windowFocsued", window.id, "-", "-", otherInfo);
+        addToLocalStorage("windowFocused", window.id, "-", "-", otherInfo);
         localStorage.setItem("windowFocused", window.id);
       }
       var tabs = window.tabs;
