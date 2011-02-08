@@ -1,7 +1,7 @@
 {
-    "name": "tracking action",
+    "name": "Browser Activity Monitor",
     "version":"1.0",
-    "description":"tracking the action of opening and closing tab and window",
+    "description":"Extension for tracking browser usage",
     "icons":{
         "48":"sample-48.png",
         "128": "sample-128.png"
