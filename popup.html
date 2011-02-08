@@ -76,13 +76,17 @@
 		}
 		
 		function toggle(){
-      if(!localStorage.pause){
-        localStorage.pause="true";
-        document.getElementById("toggle").innerHTML="Status: OFF";         
-      }else if(localStorage.pause){
-         localStorage.pause="";
-         document.getElementById("toggle").innerHTML="Status: ON";
-      }
+			if(!localStorage.pause){
+				var otherInfo = new Array();
+				chrome.extension.getBackgroundPage().addToLocalStorage("recordingPaused", "-", "-", "-", otherInfo);
+				localStorage.pause="true";
+				document.getElementById("toggle").innerHTML="Status: OFF";
+			}else if(localStorage.pause){
+				localStorage.pause="";
+				document.getElementById("toggle").innerHTML="Status: ON";
+				var otherInfo = new Array();
+				chrome.extension.getBackgroundPage().addToLocalStorage("recordingStarted", "-", "-", "-", otherInfo);
+			}
 		}
 		
 		function show(){
