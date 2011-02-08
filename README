@@ -1,0 +1,7 @@
+Installation Instructions:
+1. Place the folder containing the extension files in any location on your harddrive
+2. Open Chrome, select the controls menu
+3. Open the tools sub-menu and selection Extensions which will open a new tab
+4. In the new tab enable devloper mode
+5. Now click load unpacked extension and navigate to the extension folder
+6. Do not open the folder with the extension files in it just select the folder and click "OK"
