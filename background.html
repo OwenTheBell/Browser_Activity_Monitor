@@ -1,19 +1,19 @@
 <html>
 <head>
-	<script src="listeners.js"></script>
-  1<script>
-  /*if the extension have not been initialized before, initialize it. For the initialization process please see the comment for
-    initialize() function*/
-  if(!localStorage.initialized){initialize();}
-  /*test if the opened page is the statistic page, if yes, return true*/
-  function isStat(url){
-    var extensionPattern=/chrome-extension/;
-    isExtension=extensionPattern.test(url);
-    var endPattern=/stat/;
-    isEnd=endPattern.test(url);
-    var result=extensionPattern && isEnd;
-    return result;
-  }
+<script src="listeners.js"></script>
+<script>
+/*if the extension have not been initialized before, initialize it. For the initialization process please see the comment for
+	initialize() function*/
+if(!localStorage.initialized){initialize();}
+/*test if the opened page is the statistic page, if yes, return true*/
+function isStat(url){
+	var extensionPattern=/chrome-extension/;
+	isExtension=extensionPattern.test(url);
+	var endPattern=/stat/;
+	isEnd=endPattern.test(url);
+	var result=extensionPattern && isEnd;
+	return result;
+}
 
 //Write all data gathered by a listener to localStorage
 function addToLocalStorage(action, windowId, tabId, url, otherInfo){
@@ -25,7 +25,7 @@ function addToLocalStorage(action, windowId, tabId, url, otherInfo){
   for (var i = 0; i < otherInfo.length; i++){
     otherInfo[i] = String(otherInfo[i]);
   }
-
+  //Encode all URLs and Titles logged into storage
   if(localStorage.getItem("isAnonymous") == "yes"){
     if(url != "-"){
       url = parseURL(url);
@@ -54,13 +54,13 @@ function addToLocalStorage(action, windowId, tabId, url, otherInfo){
 function showstat(){
   var taburl=chrome.extension.getURL("stat.html");
   chrome.tabs.create({url:taburl},function(tab){
-      if (!localStorage.statPage){
-      localStorage.statPage=true;
-      localStorage.statLength=0;
-      }
-      localStorage.setItem("stat"+localStorage.statLength,tab.id);
-      localStorage.statLength++;
-      });
+		if (!localStorage.statPage){
+		localStorage.statPage=true;
+		localStorage.statLength=0;
+		}
+		localStorage.setItem("stat"+localStorage.statLength,tab.id);
+		localStorage.statLength++;
+  });
 }
 
 function generateSecret(){
@@ -336,6 +336,6 @@ var MD5 = function (string) {
   var temp = WordToHex(a)+WordToHex(b)+WordToHex(c)+WordToHex(d);
   return temp.toLowerCase();
 }
-	</script>
+</script>
 </head>
 </html>

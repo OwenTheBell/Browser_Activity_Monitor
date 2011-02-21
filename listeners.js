@@ -74,7 +74,20 @@ chrome.tabs.onSelectionChanged.addListener(function(tabId,selectInfo){
 chrome.history.onVisited.addListener(function(result){
 	//ignore if this is the stat page
 	if(isStat(result.url)){return;}
+	var windowId = "-";
+	var tabArray = new Array();
 	var otherInfo = ["loadTime", result.lastVisitTime, "id", result.id, "title", result.title, "visitCount", result.visitCount, "typed", result.typedCount];
+/*	chrome.windows.getAll({'populate': true}, function(windows){
+		for(var i = 0; i < windows.length; i++){
+			console.log("hello");
+			var window = windows[i];
+			windowId = window.id;
+			for(var j = 0; j < window.tabs.lengths; j++){
+				var tab = window.tabs[j];
+				tabArray.push(tab);
+			}
+		}
+	});*/
 	addToLocalStorage("history.onVisited", "-", "-", result.url, otherInfo);
 });
 
