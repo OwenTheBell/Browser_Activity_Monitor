@@ -11,7 +11,7 @@
       document.getElementById("secret").value = secret;
 			var isAnonymous = localStorage.getItem("isAnonymous");
 			if(isAnonymous == "yes"){
-				document.getElementById("encode").innerHTML="URL Encoding: ON";
+				document.getElementById("encode").innerHTML="Encoding: ON";
 			}
 			if(localStorage.pause){
 				document.getElementById("toggle").innerHTML="Recording: OFF";
@@ -67,10 +67,10 @@
 		function encode(){
 			var isAnonymous = localStorage.getItem("isAnonymous");
 			if (isAnonymous == "yes"){
-				document.getElementById("encode").innerHTML="URL Encoding: OFF";
+				document.getElementById("encode").innerHTML="Encoding: OFF";
 				localStorage.setItem("isAnonymous", "no");
 			} else{
-				document.getElementById("encode").innerHTML="URL Encoding: ON";
+				document.getElementById("encode").innerHTML="Encoding: ON";
 				localStorage.setItem("isAnonymous", "yes");
 			}
 		}
