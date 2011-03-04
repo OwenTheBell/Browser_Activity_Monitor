@@ -20,8 +20,7 @@ function addToLocalStorage(action, windowId, tabId, url, otherInfo){
   //check to see if the user has turned off logging
   if(localStorage.pause){return};
   var index=localStorage.datalength;
-  var date=new Date();
-	var time = date.getUTCFullYear() + ":" + date.getUTCMonth() + ":" + date.getUTCDate() + ":" + date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds() + ":" + date.getUTCMilliseconds();
+  var time=new Date().getTime();
   if(!localStorage.initialized){initialize();}
   for (var i = 0; i < otherInfo.length; i++){
     otherInfo[i] = String(otherInfo[i]);
