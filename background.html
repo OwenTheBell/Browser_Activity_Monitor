@@ -19,7 +19,7 @@ function isStat(url){
 function addToLocalStorage(action, windowId, tabId, url, otherInfo){
   //check to see if the user has turned off logging
   if(localStorage.pause){return};
-  var index=localStorage.datalength;
+  var index = parseInt(localStorage.getItem("loggedItems"));
   var date =new Date();
   var time = date.getUTCFullYear() + ":" + date.getUTCMonth() + ":" + date.getUTCDate() + ":" + date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds() + ":" + date.getUTCMilliseconds();
   if(!localStorage.initialized){initialize();}
@@ -48,7 +48,8 @@ function addToLocalStorage(action, windowId, tabId, url, otherInfo){
     display = display + " " + otherInfo[i];
   }
   localStorage.setItem(index+"info", display);
-  localStorage.datalength++;
+	console.log(index);
+	localStorage.setItem("loggedItems", ++index);
 }
 
 /*the showstat() function is used to create a new tab to show the data*/
@@ -59,8 +60,9 @@ function showstat(){
 		localStorage.statPage=true;
 		localStorage.statLength=0;
 		}
+		var index = localStorage.getItem("loggedItems");
 		localStorage.setItem("stat"+localStorage.statLength,tab.id);
-		localStorage.statLength++;
+		localStorage.setItem("loggedItems", ++index);
   });
 }
 
@@ -78,7 +80,7 @@ function generateSecret(){
 function initialize(){
   var otherInfo = new Array();
   var logTime=new Date().getTime();
-  localStorage.datalength=0;
+  localStorage.setItem("loggedItems", 0);
   localStorage.initialized=true;
   localStorage.setItem("isDebugMode","yes");
   localStorage.setItem("isAnonymous","no"); 

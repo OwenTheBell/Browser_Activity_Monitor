@@ -66,25 +66,27 @@
 		
 		function encode(){
 			var isAnonymous = localStorage.getItem("isAnonymous");
+			var otherInfo = new Array();
 			if (isAnonymous == "yes"){
 				document.getElementById("encode").innerHTML="Encoding: OFF";
 				localStorage.setItem("isAnonymous", "no");
+				chrome.extension.getBackgroundPage().addToLocalStorage("encodingOff", "-", "-", "-", otherInfo);
 			} else{
 				document.getElementById("encode").innerHTML="Encoding: ON";
 				localStorage.setItem("isAnonymous", "yes");
+				chrome.extension.getBackgroundPage().addToLocalStorage("encodingOn", "-", "-", "-", otherInfo);
 			}
 		}
 		
 		function toggle(){
+			var otherInfo = new Array();
 			if(!localStorage.pause){
-				var otherInfo = new Array();
 				chrome.extension.getBackgroundPage().addToLocalStorage("recordingPaused", "-", "-", "-", otherInfo);
 				localStorage.pause="true";
 				document.getElementById("toggle").innerHTML="Recording: OFF";
 			}else if(localStorage.pause){
 				localStorage.pause="";
 				document.getElementById("toggle").innerHTML="Recording: ON";
-				var otherInfo = new Array();
 				chrome.extension.getBackgroundPage().addToLocalStorage("recordingStarted", "-", "-", "-", otherInfo);
 			}
 		}
@@ -94,22 +96,7 @@
 		}
 		
 		function reset(){
-      var userName=localStorage.getItem("userName");
-      var secret=localStorage.getItem("secret");
-      var isDebug=localStorage.getItem("isDebugMode");
-      var isAnonymous=localStorage.getItem("isAnonymous");
-      var users = localStorage.getItem("users");
-      var pause=localStorage.pause;
-      localStorage.clear();
-      localStorage.wasCleared=true;
-      var clearTime=new Date().getTime();
-      localStorage.clearTime=clearTime;
-      localStorage.setItem("userName",userName);
-      localStorage.setItem("secret", secret);
-      localStorage.setItem("users", users);
-      localStorage.isDebugMode=isDebug;
-      localStorage.isAnonymous=isAnonymous;
-      localStorage.pause=pause;
+			localStorage.setItem("loggedItems", 0);
 		}
 	</script>
 </head>
